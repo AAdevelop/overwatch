@@ -4,7 +4,11 @@
   "description": "",
   "author": "chickendinner <abusahamed@gmail.com>",
   "main": "functions/__main__.js",
-  "dependencies": {},
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.2",
+    "jsdom": "^11.6.2"
+  },
   "private": true,
   "stdlib": {
     "build": "faaslang",
