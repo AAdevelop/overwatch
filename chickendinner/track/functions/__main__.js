@@ -2,10 +2,8 @@
 const jsdom = require('jsdom')
 const { JSDOM } = jsdom  
 const request = require('request')
-// const twilio = require('twilio');
-// const sid = 'ACfc64229b1f785fcab95e4d97c05f07a2';
-// const authToken = 'e72bb59749a2d8c7668cd1d44372ebca';
-// const phonenumber = '+12672456091';lib 
+const sms = require('../help/scraber');
+
 /**
 * A basic Hello World function
 * @param {string} itemString Who you're saying hello to
@@ -14,8 +12,6 @@ const request = require('request')
 */
 
 module.exports = (itemString, price, context, callback) => {
-
-
     request({ headers: {
         'Authorization':'Bearer v^1.1#i^1#r^0#I^3#p^1#f^0#t^H4sIAAAAAAAAAOVXf2wURRTu9ZdpoNVEBWwgHltNFLJ7s3u7e3crd+mVFqlCW7grQkXq3O4cXbq3e9mZpb0QpDbakCgYDcRGE4GIMUDUtqAhBiUNEogWf8YgxD+0YoK0IdFANGrQ3e1RrpVAhQok3j+XefPmzfd9782bHdBRXDKna2HXr6We2/K3d4COfI+HnQJKiovmlhXklxflgRwHz/aO+zoKOwtOz8MwpaWlpQinDR0jb3tK07HkGsOUZeqSAbGKJR2mEJaILMWiixdJHAOktGkQQzY0yltbHaZCMCgIiaDi50MChBxrW/WLMeNGmBIA8PMBGUDE+1leFux5jC1Uq2MCdRKmOMAGacDTgI0DURL8EicyXJBvorzLkIlVQ7ddGEBFXLiSu9bMwXplqBBjZBI7CBWpjS6I1Udrq2vq4vN8ObEiWR1iBBILjx3NNxTkXQY1C115G+x6SzFLlhHGlC8yssPYoFL0IphrgO9KLSoBkVf4BIIBkORkeVKkXGCYKUiujMOxqAqddF0lpBOVZK6mqK1GYg2SSXZUZ4eorfY6f0ssqKlJFZlhqqYquiLa0EBFlqpKSxuEOr0Qyq0NjXTD0mo6FAgGAiyEiA5xQU5AMshuMxIrK/K4feYbuqI6kmFvnUGqkI0ZjVeGz1HGdqrX681okjh4cv2CFxUMiE1OSkdyaJEW3ckqStkyeN3h1fUfXU2IqSYsgkYjjJ9wBQpTMJ1WFWr8pFuJ2eJpx2GqhZC05PO1tbUxbX7GMFf7OABY3/LFi2JyC0pByvV1zrrjr159Aa26VGRkr8SqRDJpG0u7Xak2AH01FbGlCAWErO5jYUXGW/9hyOHsG3seJut8oCTwy6wQSMqQAygwKa0mki1Rn4MDJWCGTkGzFZG0BmVEy3adWSlkqorkF5KcP5hEtCKGkjQfSibphKCINJtECCCUSMih4P/nmEy00GOykUYNhqbKmUkq90kqdb+pNECTZGJI02zDRGv+siSxQ/KG0HPO+oQpOjGwHQSmVcapbEY2Uj4D2i3NMTW7qK+Lt2rfhbdUUm2CI0xVZeQSY1y6DF4rMybChmXa9zdT73T1uNGKdPuUENPQNGQuY69Licns5zell1+WlayptozNtxqzf9Ukr7GyIbnpnAs7PY1jeLMCxwmiIALxurjNd7Maz9ygljXhtC40MEHKf/Dx4Rv7EIrkuT+20/Mu6PT02m8p4AP3sxVgdnFBY2HB1HKsEsSoMMlgdbVuf9+biGlFmTRUzfxiz+Mze3Y15zy9tj8BZow+vkoK2Ck5LzEw89JMEXv79FI2CHjAAlHwc2ITqLg0W8hOK7zLP7Rt7+nnmvrfqAk3V8Z+ea+y58BKUDrq5PEU5dk1kbegb/AMP+2lj83hksc+mtr3W5X46cFZsHDnowNF/XP/ahr07L634rWS56nO6PqT+Zv3zHj4kYG64uoNr3w/4+WdlXvBxuoTnd90f/dQKvK67+jG+MFNlW+2r9u//sTJvC2JE8+sOxa/sOn4Fy/O1raueJY7e/7H8ubKLu7buwf6dxzbJqtak/rq2qHfVz0wxHR3fbJv99tlp46XWW/dcXTKV18aPy8/c7h086ED5V0buvih81rPobJ7nhTfGR6Y9dMHRwf+3Loy/8Kq4f6K7nPx/VW9R44/9X4ftAI7rMXUscPTy+ciy/tCzZk7HxxuPDvnh8+4r/ue7l3yx8E1g4PTi8+dGjp3ZN+HjSs/37Vny+mR9P0NaJDjWxQPAAA=',
         'Content-Type':'application/json',
@@ -44,6 +40,8 @@ module.exports = (itemString, price, context, callback) => {
                     underPrice.push(item);
                 }
             }
+
+           	   sms.sendmsg("itemString" + " " underPrice.url + "  " + "for" + " " underPrice.price)
 
               callback(null, {average, underPrice, itemString});
         });
@@ -81,13 +79,4 @@ module.exports = (itemString, price, context, callback) => {
 
 
 
-// let smsclient = new twilio(sid,authToken);
-// function sendmsg (body,to){
-// 	    smsclient.messages.create({
-// 		        body: 'Are you coming to school today',
-// 		        to: '+16095800390',
-// 		        from: phonenumber
-// 	    },function(message){
-// 		        console.log(message);
-// 		        }); 
-// }
+
