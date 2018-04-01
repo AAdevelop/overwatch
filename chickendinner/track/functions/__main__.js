@@ -13,14 +13,14 @@ const request = require('request')
 * @returns {any}
 */
 
-module.exports = (itemString = 'nintendo switch', price, context, callback) => {
+module.exports = (itemString, price, context, callback) => {
 
 
     request({ headers: {
         'Authorization':'Bearer v^1.1#i^1#r^0#I^3#p^1#f^0#t^H4sIAAAAAAAAAOVXf2wURRTu9ZdpoNVEBWwgHltNFLJ7s3u7e3crd+mVFqlCW7grQkXq3O4cXbq3e9mZpb0QpDbakCgYDcRGE4GIMUDUtqAhBiUNEogWf8YgxD+0YoK0IdFANGrQ3e1RrpVAhQok3j+XefPmzfd9782bHdBRXDKna2HXr6We2/K3d4COfI+HnQJKiovmlhXklxflgRwHz/aO+zoKOwtOz8MwpaWlpQinDR0jb3tK07HkGsOUZeqSAbGKJR2mEJaILMWiixdJHAOktGkQQzY0yltbHaZCMCgIiaDi50MChBxrW/WLMeNGmBIA8PMBGUDE+1leFux5jC1Uq2MCdRKmOMAGacDTgI0DURL8EicyXJBvorzLkIlVQ7ddGEBFXLiSu9bMwXplqBBjZBI7CBWpjS6I1Udrq2vq4vN8ObEiWR1iBBILjx3NNxTkXQY1C115G+x6SzFLlhHGlC8yssPYoFL0IphrgO9KLSoBkVf4BIIBkORkeVKkXGCYKUiujMOxqAqddF0lpBOVZK6mqK1GYg2SSXZUZ4eorfY6f0ssqKlJFZlhqqYquiLa0EBFlqpKSxuEOr0Qyq0NjXTD0mo6FAgGAiyEiA5xQU5AMshuMxIrK/K4feYbuqI6kmFvnUGqkI0ZjVeGz1HGdqrX681okjh4cv2CFxUMiE1OSkdyaJEW3ckqStkyeN3h1fUfXU2IqSYsgkYjjJ9wBQpTMJ1WFWr8pFuJ2eJpx2GqhZC05PO1tbUxbX7GMFf7OABY3/LFi2JyC0pByvV1zrrjr159Aa26VGRkr8SqRDJpG0u7Xak2AH01FbGlCAWErO5jYUXGW/9hyOHsG3seJut8oCTwy6wQSMqQAygwKa0mki1Rn4MDJWCGTkGzFZG0BmVEy3adWSlkqorkF5KcP5hEtCKGkjQfSibphKCINJtECCCUSMih4P/nmEy00GOykUYNhqbKmUkq90kqdb+pNECTZGJI02zDRGv+siSxQ/KG0HPO+oQpOjGwHQSmVcapbEY2Uj4D2i3NMTW7qK+Lt2rfhbdUUm2CI0xVZeQSY1y6DF4rMybChmXa9zdT73T1uNGKdPuUENPQNGQuY69Licns5zell1+WlayptozNtxqzf9Ukr7GyIbnpnAs7PY1jeLMCxwmiIALxurjNd7Maz9ygljXhtC40MEHKf/Dx4Rv7EIrkuT+20/Mu6PT02m8p4AP3sxVgdnFBY2HB1HKsEsSoMMlgdbVuf9+biGlFmTRUzfxiz+Mze3Y15zy9tj8BZow+vkoK2Ck5LzEw89JMEXv79FI2CHjAAlHwc2ITqLg0W8hOK7zLP7Rt7+nnmvrfqAk3V8Z+ea+y58BKUDrq5PEU5dk1kbegb/AMP+2lj83hksc+mtr3W5X46cFZsHDnowNF/XP/ahr07L634rWS56nO6PqT+Zv3zHj4kYG64uoNr3w/4+WdlXvBxuoTnd90f/dQKvK67+jG+MFNlW+2r9u//sTJvC2JE8+sOxa/sOn4Fy/O1raueJY7e/7H8ubKLu7buwf6dxzbJqtak/rq2qHfVz0wxHR3fbJv99tlp46XWW/dcXTKV18aPy8/c7h086ED5V0buvih81rPobJ7nhTfGR6Y9dMHRwf+3Loy/8Kq4f6K7nPx/VW9R44/9X4ftAI7rMXUscPTy+ciy/tCzZk7HxxuPDvnh8+4r/ue7l3yx8E1g4PTi8+dGjp3ZN+HjSs/37Vny+mR9P0NaJDjWxQPAAA=',
         'Content-Type':'application/json',
         'X-EBAY-C-ENDUSERCTX':'affiliateCampaignId=<ePNCampaignId>,affiliateReferenceId=<referenceId>',
-        }, url: `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${itemString}&limit=20&filter=price:[${price}..0],priceCurrency:USD`, 
+        }, url: `https://api.ebay.com/buy/browse/v1/item_summary/search?q=${itemString}&limit=70`, 
           method:'GET'}, function(err,res,body){
             const json = JSON.parse(body).itemSummaries
              let items = [];
@@ -40,12 +40,12 @@ module.exports = (itemString = 'nintendo switch', price, context, callback) => {
             let underPrice = [];
 
             for (let item of items) {
-                if (item.price <= price) {
+                if (parseInt(item.price) <= price) {
                     underPrice.push(item);
                 }
             }
 
-              callback(null, {average, underPrice});
+              callback(null, {average, underPrice, itemString});
         });
 
 
